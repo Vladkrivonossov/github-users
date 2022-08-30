@@ -1,12 +1,14 @@
 import React, { FC } from 'react';
-import {UserProfilePage} from "../UserProfilePage/UserProfilePage";
-import { UsersPage } from "../UsersPage/UsersPage";
-import {UsersSearchPage} from "../UsersSearchPage/UsersSearchPage";
+import { UserProfilePage } from '../UserProfilePage/UserProfilePage';
+import { UsersPage } from '../UsersPage/UsersPage';
+import { UsersSearchPage } from '../UsersSearchPage/UsersSearchPage';
 
 export const App: FC = () => {
-  return <>
-    <UserProfilePage />
+  return (
+    <>
+      <UserProfilePage />
       <UsersPage />
-    <UsersSearchPage />
-  </>;
+      <UsersSearchPage />
+    </>
+  );
 };
