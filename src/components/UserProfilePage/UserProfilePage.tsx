@@ -1,27 +1,59 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import './UserProfilePage.css';
-import { Header } from '../Header/Header';
+import { useLocation } from 'react-router-dom';
+import { IRepos, IUser } from '../../types';
+import { pluralize } from '../../helpers';
 
 export const UserProfilePage: FC = () => {
+  const [user, setUser] = useState<IUser>();
+  const [repos, setRepos] = useState<IRepos[]>([]);
+  const [loading, setLoading] = useState(false);
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    fetch(`https://api.github.com${pathname}`, {
+      headers: {
+        Authorization: 'token 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',
+      },
+    })
+      .then((res) => res.json())
+      .then((res) => setUser(res));
+  }, [pathname]);
+
+  useEffect(() => {
+    fetch(`${user?.repos_url}`, {
+      headers: {
+        Authorization: 'token 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',
+      },
+    })
+      .then((res) => res.json())
+      .then((res) => setRepos(res.slice(0, 6)))
+      .then(() => setLoading(true));
+  }, [user]);
+
   return (
     <>
-      <Header />
-
       <main>
         <div className="container">
           <section className="user-profile">
             <div className="user-profile__image-container">
-              <img className="user-profile__image" src="http://placeimg.com/640/480/any" alt="defunkt profile photo" />
+              <img
+                className="user-profile__image"
+                src={user?.avatar_url}
+                alt={`${user?.name ?? user?.login} profile photo`}
+              />
             </div>
             <div className="user-profile__content">
               <h1 className="user-profile__title">
-                Chris Wanstrath, <span className="user-profile__accent">defunct</span>
+                {user?.name}, <span className="user-profile__accent">{user?.login}</span>
               </h1>
               <p className="user-profile__text">
-                <span className="user-profile__accent">21.3k</span> followers ·{' '}
-                <span className="user-profile__accent">210</span> following ·{' '}
-                <a href="http://chriswanstrath.com/" className="link">
-                  http://chriswanstrath.com/
+                · <span className="user-profile__accent">{user?.followers}</span>
+                {pluralize(user?.followers || 0, ['подписчик', 'подписчика', 'подписчиков'])} ·{' '}
+                <span className="user-profile__accent">{user?.following}</span>
+                {pluralize(user?.following || 0, ['подписка', 'подписка', 'подписок'])}
+                <a href={user?.html_url} className="link">
+                  {user?.html_url}
                 </a>
               </p>
             </div>
@@ -30,23 +62,32 @@ export const UserProfilePage: FC = () => {
           <section className="repository-list">
             <div className="repository-list__header">
               <h2 className="repository-list__title">Репозитории</h2>
-              <a href="https://github.com/defunkt?tab=repositories" className="link" target="_blank" rel="noreferrer">
+              <a
+                href={`https://github.com/${user?.login}?tab=repositories`}
+                className="link"
+                target="_blank"
+                rel="noreferrer"
+              >
                 Все репозитории
               </a>
             </div>
 
-            <div className="repository-list__container">
-              {[1, 2, 3, 4, 5].map((item) => (
-                <section className="repository-list__item" key={item}>
-                  <h3 className="repository-list__item-title">
-                    <a href="/" className="link">
-                      body_matcher
-                    </a>
-                  </h3>
-                  <p className="repository-list__item-text">Simplify your view testing. Forget assert_select.</p>
-                </section>
-              ))}
-            </div>
+            {loading ? (
+              <div className="repository-list__container">
+                {repos.map((repo) => (
+                  <section className="repository-list__item" key={repo.id}>
+                    <h3 className="repository-list__item-title">
+                      <a href={`${repo.html_url}`} className="link">
+                        {repo.name}
+                      </a>
+                    </h3>
+                    <p className="repository-list__item-text">{repo.description}</p>
+                  </section>
+                ))}
+              </div>
+            ) : (
+              <h1>Загрузка...</h1>
+            )}
           </section>
         </div>
       </main>

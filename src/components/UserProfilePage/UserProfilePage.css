@@ -26,6 +26,7 @@
 }
 
 .user-profile__accent {
+  margin-right: 10px;
   font-family: var(--font-primary);
   color: var(--color-accent);
   text-transform: lowercase;
@@ -65,4 +66,8 @@
 
 .repository-list__item-text {
   font-size: 13px;
+}
+
+.link {
+  margin-left: 10px;
 }

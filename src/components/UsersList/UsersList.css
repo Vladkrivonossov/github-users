@@ -5,6 +5,14 @@
   gap: 60px;
 }
 
+.users-list__content {
+  height: 64px;
+}
+
+.users-list__title {
+  white-space: nowrap;
+}
+
 .users-list__item {
   display: flex;
   align-items: center;

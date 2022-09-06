@@ -1,8 +1,11 @@
 import React, { FC, FormEvent, useState } from 'react';
 import './Header.css';
+import { Link, matchPath, useLocation } from 'react-router-dom';
 
 export const Header: FC = () => {
   const [searchValue, setSearchValue] = useState('');
+  const { pathname } = useLocation();
+
   const onSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -11,18 +14,30 @@ export const Header: FC = () => {
     }
   };
 
+  const currentPage = () => {
+    if (matchPath('/users/:id', pathname)) {
+      return pathname.replace(/\/users\//, '');
+    }
+
+    if (matchPath('/search/*', pathname)) {
+      return 'поиск';
+    }
+
+    return '';
+  };
+
   return (
     <header className="header">
       <div className="container header__container">
         <nav className="header__navigation">
           <ul className="header__navigation-list">
             <li className="header__navigation-list-item">
-              <a href="/" className="header__navigation-link">
+              <Link to="/" className="header__navigation-link">
                 Пользователи гитхаба
-              </a>
+              </Link>
             </li>
             <li className="header__navigation-list-item">
-              <a className="header__navigation-link header__navigation-link--user">defunct</a>
+              <a className="header__navigation-link header__navigation-link--user">{currentPage()}</a>
             </li>
           </ul>
         </nav>
@@ -36,9 +51,11 @@ export const Header: FC = () => {
               value={searchValue}
               onChange={(event) => setSearchValue(event.currentTarget.value)}
             />
-            <button type="submit" className="header__search-button">
-              Найти
-            </button>
+            <Link to={`/search/users?q=${searchValue}`}>
+              <button onClick={() => setSearchValue('')} type="submit" className="header__search-button">
+                Найти
+              </button>
+            </Link>
           </form>
         </div>
       </div>
