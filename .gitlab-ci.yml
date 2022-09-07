@@ -44,6 +44,6 @@ deploy:
     name: production
   resource_group: production
   script:
-    - rsync -a --delete dist/ vlad@167.235.128.132:/home/vlad/github-users/github-users
+    - rsync -a --delete dist/ vlad@167.235.128.132:/home/vlad/github-users
   only:
     - main
