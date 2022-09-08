@@ -11,21 +11,13 @@ export const UserProfilePage: FC = () => {
   const { pathname } = useLocation();
 
   useEffect(() => {
-    fetch(`https://api.github.com${pathname}`, {
-      headers: {
-        Authorization: 'token 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',
-      },
-    })
+    fetch(`https://api.github.com${pathname}`)
       .then((res) => res.json())
       .then((res) => setUser(res));
   }, [pathname]);
 
   useEffect(() => {
-    fetch(`${user?.repos_url}`, {
-      headers: {
-        Authorization: 'token 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',
-      },
-    })
+    fetch(`${user?.repos_url}`)
       .then((res) => res.json())
       .then((res) => setRepos(res.slice(0, 6)))
       .then(() => setLoading(true));
@@ -51,7 +43,7 @@ export const UserProfilePage: FC = () => {
                 · <span className="user-profile__accent">{user?.followers}</span>
                 {pluralize(user?.followers || 0, ['подписчик', 'подписчика', 'подписчиков'])} ·{' '}
                 <span className="user-profile__accent">{user?.following}</span>
-                {pluralize(user?.following || 0, ['подписка', 'подписка', 'подписок'])}
+                {pluralize(user?.following || 0, ['подписка', 'подписки', 'подписок'])}
                 <a href={user?.html_url} className="link">
                   {user?.html_url}
                 </a>

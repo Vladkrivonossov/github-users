@@ -11,22 +11,14 @@ export const UsersSearchPage: FC = () => {
 
   useEffect(() => {
     setSearchedSingleUsers([]);
-    fetch(`https://api.github.com${pathname}${search}`, {
-      headers: {
-        Authorization: 'token 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',
-      },
-    })
+    fetch(`https://api.github.com${pathname}${search}`)
       .then((res) => res.json())
       .then((res) => setSearchedUsers(res.items));
   }, [search, pathname]);
 
   useEffect(() => {
     searchedUsers.forEach((user) => {
-      fetch(user.url, {
-        headers: {
-          Authorization: 'token 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',
-        },
-      })
+      fetch(user.url)
         .then((res) => res.json())
         .then((res) => setSearchedSingleUsers((prevState) => prevState.concat([res])))
         .then(() => setLoading(true));
@@ -39,12 +31,12 @@ export const UsersSearchPage: FC = () => {
         <main>
           {searchedSingleUsers.length ? (
             <div className="container">
-              <h1 className="title">Пользователи по запросу {search.split('=')[1]}</h1>
+              <h1 className="title">Пользователи по запросу {search.split('=')[1].replace(/%(20)/g, ' ')}</h1>
               <UsersList usersList={searchedSingleUsers} />
             </div>
           ) : (
             <div className="container">
-              <h1 className="title">Пользователи по запросу {search.split('=')[1]} не найдены</h1>
+              <h1 className="title">Пользователи по запросу {search.split('=')[1].replace(/%(20)/g, ' ')} не найдены</h1>
             </div>
           )}
         </main>

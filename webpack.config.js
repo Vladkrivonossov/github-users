@@ -47,6 +47,7 @@ module.exports = {
     client: {
       overlay: false,
     },
+    historyApiFallback: true,
     open: true,
   },
 };

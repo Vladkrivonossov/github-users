@@ -1,6 +1,6 @@
 import React, { FC, FormEvent, useState } from 'react';
 import './Header.css';
-import { Link, matchPath, useLocation } from 'react-router-dom';
+import {Link, matchPath, useLocation} from 'react-router-dom';
 
 export const Header: FC = () => {
   const [searchValue, setSearchValue] = useState('');
@@ -51,7 +51,7 @@ export const Header: FC = () => {
               value={searchValue}
               onChange={(event) => setSearchValue(event.currentTarget.value)}
             />
-            <Link to={`/search/users?q=${searchValue}`}>
+            <Link to={searchValue ? `/search/users?q=${searchValue}` : '/'}>
               <button onClick={() => setSearchValue('')} type="submit" className="header__search-button">
                 Найти
               </button>
