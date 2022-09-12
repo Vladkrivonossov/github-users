@@ -2,7 +2,7 @@ import React, { FC, useEffect, useState } from 'react';
 import { UsersList } from '../UsersList/UsersList';
 import { IUser } from '../../types';
 import { useLocation } from 'react-router-dom';
-import {githubToken} from "../../helpers";
+import { githubToken } from '../../helpers';
 
 export const UsersSearchPage: FC = () => {
   const [loading, setLoading] = useState(false);
@@ -14,8 +14,8 @@ export const UsersSearchPage: FC = () => {
     setSearchedSingleUsers([]);
     fetch(`https://api.github.com${pathname}${search}`, {
       headers: {
-        Authorization: `${githubToken}`
-      }
+        Authorization: `${githubToken}`,
+      },
     })
       .then((res) => res.json())
       .then((res) => setSearchedUsers(res.items));
@@ -25,8 +25,8 @@ export const UsersSearchPage: FC = () => {
     searchedUsers.forEach((user) => {
       fetch(user.url, {
         headers: {
-          Authorization: `${githubToken}`
-        }
+          Authorization: `${githubToken}`,
+        },
       })
         .then((res) => res.json())
         .then((res) => setSearchedSingleUsers((prevState) => prevState.concat([res])))

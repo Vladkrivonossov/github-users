@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useState } from 'react';
 import { UsersList } from '../UsersList/UsersList';
 import { IUser } from '../../types';
-import {githubToken} from "../../helpers";
+import { githubToken } from '../../helpers';
 
 export const UsersPage: FC = () => {
   const [loading, setLoading] = useState(false);
@@ -11,8 +11,8 @@ export const UsersPage: FC = () => {
   useEffect(() => {
     fetch('https://api.github.com/users', {
       headers: {
-        Authorization: `${githubToken}`
-      }
+        Authorization: `${githubToken}`,
+      },
     })
       .then((res) => res.json())
       .then((res) => setUsersList(res));
@@ -22,8 +22,8 @@ export const UsersPage: FC = () => {
     usersList.forEach((user) => {
       fetch(user.url, {
         headers: {
-          Authorization: `${githubToken}`
-        }
+          Authorization: `${githubToken}`,
+        },
       })
         .then((res) => res.json())
         .then((res) => setSingleUsers((prevState) => prevState.concat([res])))
