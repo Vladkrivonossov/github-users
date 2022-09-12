@@ -8,22 +8,14 @@ export const UsersPage: FC = () => {
   const [singleUsers, setSingleUsers] = useState<IUser[]>([]);
 
   useEffect(() => {
-    fetch('https://api.github.com/users', {
-      headers: {
-        Authorization: 'token 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',
-      },
-    })
+    fetch('https://api.github.com/users')
       .then((res) => res.json())
       .then((res) => setUsersList(res));
   }, []);
 
   useEffect(() => {
     usersList.forEach((user) => {
-      fetch(user.url, {
-        headers: {
-          Authorization: 'token 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',
-        },
-      })
+      fetch(user.url)
         .then((res) => res.json())
         .then((res) => setSingleUsers((prevState) => prevState.concat([res])))
         .then(() => setLoading(true));

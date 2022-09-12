@@ -1,6 +1,6 @@
 import React, { FC, FormEvent, useState } from 'react';
 import './Header.css';
-import {Link, matchPath, useLocation} from 'react-router-dom';
+import { Link, matchPath, useLocation } from 'react-router-dom';
 
 export const Header: FC = () => {
   const [searchValue, setSearchValue] = useState('');

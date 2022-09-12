@@ -36,7 +36,9 @@ export const UsersSearchPage: FC = () => {
             </div>
           ) : (
             <div className="container">
-              <h1 className="title">Пользователи по запросу {search.split('=')[1].replace(/%(20)/g, ' ')} не найдены</h1>
+              <h1 className="title">
+                Пользователи по запросу {search.split('=')[1].replace(/%(20)/g, ' ')} не найдены
+              </h1>
             </div>
           )}
         </main>
