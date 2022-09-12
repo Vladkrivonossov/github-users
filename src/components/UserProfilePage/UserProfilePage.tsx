@@ -2,7 +2,7 @@ import React, { FC, useEffect, useState } from 'react';
 import './UserProfilePage.css';
 import { useLocation } from 'react-router-dom';
 import { IRepos, IUser } from '../../types';
-import { pluralize } from '../../helpers';
+import {githubToken, pluralize} from '../../helpers';
 
 export const UserProfilePage: FC = () => {
   const [user, setUser] = useState<IUser>();
@@ -11,13 +11,21 @@ export const UserProfilePage: FC = () => {
   const { pathname } = useLocation();
 
   useEffect(() => {
-    fetch(`https://api.github.com${pathname}`)
+    fetch(`https://api.github.com${pathname}`, {
+      headers: {
+        Authorization: `${githubToken}`
+      }
+    })
       .then((res) => res.json())
       .then((res) => setUser(res));
   }, [pathname]);
 
   useEffect(() => {
-    fetch(`${user?.repos_url}`)
+    fetch(`${user?.repos_url}`, {
+      headers: {
+        Authorization: `${githubToken}`
+      }
+    })
       .then((res) => res.json())
       .then((res) => setRepos(res.slice(0, 6)))
       .then(() => setLoading(true));
