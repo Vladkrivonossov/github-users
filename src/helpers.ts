@@ -6,4 +6,4 @@ export const pluralize = (n: number, forms: string[]): string => {
     : forms[2];
 };
 
-export const githubToken = 'token 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';
+export const githubToken = 'token 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';

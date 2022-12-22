@@ -4,7 +4,7 @@ import { IUser } from '../../types';
 import { githubToken } from '../../helpers';
 
 export const UsersPage: FC = () => {
-  const [loading, setLoading] = useState(false);
+  const [loaded, setLoaded] = useState(false);
   const [usersList, setUsersList] = useState<IUser[]>([]);
   const [singleUsers, setSingleUsers] = useState<IUser[]>([]);
 
@@ -27,20 +27,21 @@ export const UsersPage: FC = () => {
       })
         .then((res) => res.json())
         .then((res) => setSingleUsers((prevState) => prevState.concat([res])))
-        .then(() => setLoading(true));
+        .then(() => setLoaded(true));
     });
   }, [usersList]);
 
   return (
     <>
       <main>
-        {loading ? (
-          <div className="container">
-            <UsersList usersList={singleUsers} />
-          </div>
-        ) : (
+        {!loaded ? (
           <div className="container">
             <h1 style={{ textAlign: 'center', fontSize: '36px' }}>Загрузка...</h1>
+          </div>
+          
+        ) : (
+          <div className="container">
+            <UsersList usersList={singleUsers} />
           </div>
         )}
       </main>

@@ -11,7 +11,7 @@ export const App: FC = () => {
       <Header />
       <Routes>
         <Route path="/" element={<UsersPage />} />
-        <Route path="users/:id" element={<UserProfilePage />} />
+        <Route path="/users/:id" element={<UserProfilePage />} />
         <Route path="/search/*" element={<UsersSearchPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
